@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crop Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            background
+        }
+        .navbar {
+            background-color: #343a40;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .navbar-nav .nav-link {
+            color: #fff;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ffc107;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 30px;
+            
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .card {
+            background-color: #343a40;
+            color: #fff;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-left: 615px;
+            margin-bottom: 10px;
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .card-text {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Crop Prediction</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">About</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-3 mt-3">
+    <h1 class="text-success text-center mb-4">Crop Prediction</h1>
+
+    <!-- Form -->
+    <form action="/predict" method="POST">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="Nitrogen" class="form-label">Nitrogen</label>
+                <input type="number" class="form-control" id="Nitrogen" name="Nitrogen" placeholder="Enter Nitrogen" required step="0">
+            </div>
+            <div class="col-md-4">
+                <label for="Phosporus" class="form-label">Phosporus</label>
+                <input type="number" class="form-control" id="Phosporus" name="Phosporus" placeholder="Enter Phosporus" required step="0">
+            </div>
+            <div class="col-md-4">
+                <label for="Potassium" class="form-label">Potassium</label>
+                <input type="number" class="form-control" id="Potassium" name="Potassium" placeholder="Enter Potassium" required step="0">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="Temperature" class="form-label">Temperature (°C)</label>
+                <input type="number" class="form-control" id="Temperature" name="Temperature" placeholder="Enter Temperature" required step="0">
+            </div>
+            <div class="col-md-4">
+                <label for="Humidity" class="form-label">Humidity (%)</label>
+                <input type="number" class="form-control" id="Humidity" name="Humidity" placeholder="Enter Humidity" required step="0">
+            </div>
+            <div class="col-md-4">
+                <label for="Ph" class="form-label">pH Value</label>
+                <input type="number" class="form-control" id="Ph" name="Ph" placeholder="Enter pH Value" required step="0">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="Rainfall" class="form-label">Rainfall (mm)</label>
+                <input type="number" class="form-control" id="Rainfall" name="Rainfall" placeholder="Enter Rainfall" required step="0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Get Recommendation</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+{% if result %}
+<div class="card bg-dark" style="width: 18rem;">
+  <img src="{{url_for('static', filename='img.jpg')}}" class="card-img-top" alt="...">
+  <div class="card-body">
+	<h5 class="card-title">Recommend Crop for cultivation is:</h5>
+	<p class="card-text">{{ result }}</p>
+  </div>
+</div>
+{% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>
+
+

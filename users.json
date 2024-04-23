@@ -1,0 +1,18 @@
+<?php
+// Get form data
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+// Simulate user authentication (replace with your authentication logic)
+$users = json_decode(file_get_contents('users.json'), true);
+
+foreach ($users as $user) {
+    if ($user['email'] === $email && $user['password'] === $password) {
+        echo json_encode(array('success' => true));
+        exit;
+    }
+}
+
+// Authentication failed
+echo json_encode(array('success' => false, 'message' => 'Invalid email or password'));
+?>
